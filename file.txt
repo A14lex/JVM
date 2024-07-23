@@ -1,0 +1,16 @@
+
+public class JvmComprehension {
+
+    public static void main(String[] args) {
+        int i = 1;                      // 1. К этому моменту отработают загрузчики классов, нужная информация будет загружена в MetaSpace. В области памяти stack произойдет выделение памяти под фрейм метода main c притивной переменной.
+        Object o = new Object();        // 2 В области памяти heap создастся объект, а в stack появится ссылка на него
+        Integer ii = 2;                 // 3 Аналогично 2
+        printAll(o, i, ii);             // 4 Создастся в стеке фрейм (кадр) метода, туда занесется примивная переменная по значению, и ссылки на объекты o, ii.
+        System.out.println("finished"); // 7 В стеке появится фрейм метода с сылкой на объект типа String
+    }
+
+    private static void printAll(Object o, int i, Integer ii) {
+        Integer uselessVar = 700;                   // 5 Появится (и исчезнет к концу метода) ссылка на объект типа Integer
+        System.out.println(o.toString() + i + ii);  // 6 Произойдет конкатенация переменных (будет в стеке фрейм метода toString), на конце имени класса и хеш кода объекта о будет 12
+    }
+}
